@@ -15,20 +15,19 @@ def request_access():
 
     response = requests.request("GET", url, headers=headers, params=querystring)
 
-    print(response.text)
-
-    # request for the fule data
-
-    import requests
+    return response
 
 
-def request_fuel_data():
+
+def request_fuel_data(access_token):
     url = "https://api.onegov.nsw.gov.au/FuelPriceCheck/v1/fuel/prices/location"
 
     payload = "{\"fueltype\":\"\",\"brand\":[],\"namedlocation\":\"\",\"referencepoint\":{\"latitude\":\"\",\"longitude\":\"\"},\"sortby\":\"\",\"sortascending\":\"\"}"
+    
+    # customise headers
     headers = {
         'content-type': "<SOME_STRING_VALUE>",
-        'authorization': "<SOME_STRING_VALUE>",
+        'authorization': f"Bearer {access_token}",
         'apikey': "<SOME_STRING_VALUE>",
         'transactionid': "<SOME_STRING_VALUE>",
         'requesttimestamp': "<SOME_STRING_VALUE>"
@@ -36,4 +35,8 @@ def request_fuel_data():
 
     response = requests.request("POST", url, data=payload, headers=headers)
 
-    return
+    return response
+
+
+access_token = request_access['access_token']
+fuel_data = request_fuel_data(access_token)
